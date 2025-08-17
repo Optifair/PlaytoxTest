@@ -29,10 +29,19 @@ public class TransferThread implements Runnable {
 
                 synchronized (from) {
                     synchronized (to) {
+                        int fromBalanceBefore = from.getMoney();
+                        int toBalanceBefore = to.getMoney();
+
                         from.withdraw(amount);
                         to.deposit(amount);
                         transactionCount++;
-                        logger.info("Transferred {} from {} to {}", amount, from.getId(), to.getId());
+
+                        logger.info(
+                                "Transferred {} from {} (before: {}, after: {}) to {} (before: {}, after: {})",
+                                amount,
+                                from.getId(), fromBalanceBefore, from.getMoney(),
+                                to.getId(), toBalanceBefore, to.getMoney()
+                        );
                     }
                 }
 
